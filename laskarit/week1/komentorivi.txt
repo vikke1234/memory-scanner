@@ -1,0 +1,42 @@
+school
+├── laskarit
+│   └── week1
+│       ├── eka.txt
+│       ├── stuff
+│       │   └── myfile
+│       └── third.txt
+├── linis
+│   ├── w1.pdf
+│   ├── w1.synctex.gz
+│   ├── w1.tex
+│   ├── w2.pdf
+│   ├── w2.synctex.gz
+│   ├── w2.tex
+│   ├── w3.pdf
+│   ├── w3.synctex.gz
+│   ├── w3.tex
+│   ├── w4.aux
+│   ├── w4.fdb_latexmk
+│   ├── w4.fls
+│   ├── w4.log
+│   ├── w4.pdf
+│   ├── w4.synctex.gz
+│   └── w4.tex
+├── ot
+│   ├── laskarit
+│   │   └── week1
+│   │       └── komentorivi.txt
+│   └── README.md
+└── tiltu
+    ├── v4.pdf
+    ├── v4.synctex.gz
+    ├── v4.tex
+    ├── v5.aux
+    ├── v5.fdb_latexmk
+    ├── v5.fls
+    ├── v5.log
+    ├── v5.pdf
+    ├── v5.synctex.gz
+    └── v5.tex
+
+8 directories, 31 files

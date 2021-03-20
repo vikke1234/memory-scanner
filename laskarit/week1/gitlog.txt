@@ -1,0 +1,92 @@
+commit fce3a86ab9d32cf25049c3675e4be619b1c4b8b3
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 13:15:10 2021 +0200
+
+    more changes
+
+ eka.txt   | 27 ++++++++++++++++++++++++++-
+ third.txt |  9 +++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+
+commit 6f7df368a9ed85885734b6432467e2e7b5a215de
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:49:49 2021 +0200
+
+    renamed tiedosto to eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit cb58a650eab59833bf9516147733aa514f5ffcbc
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:48:46 2021 +0200
+
+    removed toinen
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 5839d63f0dad609fab193c81ab17f84b1e79ae33
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:46:21 2021 +0200
+
+    changed text
+
+ tiedosto.txt | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+commit 33949457f081a7c7083ea89e3addc5591059d36d
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:45:28 2021 +0200
+
+    added text
+
+ tiedosto.txt | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit a4106e77de5d5b7629dd859c0652e5f9654d7176
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:36:09 2021 +0200
+
+    added stuff
+
+ stuff/myfile | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit afd0cb2d8532361a54f44344ef60ea8878a20778
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:35:26 2021 +0200
+
+    changed more
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit 757dcd321aede2d6b63ec590c0e6353169ed4fa8
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:34:45 2021 +0200
+
+    added third file
+
+ third.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit d69e7ace1889f41e69bef309a930b52b0e74c995
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:33:01 2021 +0200
+
+    change and add
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit ae6e5261a32fb4b7c83a3ec79db9e338d5d282e2
+Author: Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>
+Date:   Sat Mar 20 12:24:36 2021 +0200
+
+    created tiedosto.txt
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
