@@ -3,7 +3,6 @@
 #include <bits/stdint-uintn.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <sys/queue.h>
 
 enum type_t { UINT8, UINT16, UINT32, UINT64 };
 
@@ -17,13 +16,26 @@ struct value_t {
   } value;
 };
 
-struct search_result_t {
-  struct value_t value;
+struct entry_t {
   void *address;
-  LIST_ENTRY(search_result_t) next;
+  struct value_t value;
 };
 
-LIST_HEAD(entry_list, search_result_t);
+/**
+   this is a skiplist, it places NULLs at the indexes where it doesn't find a
+   value then it swaps the deleted element with the last one in the array
+ */
+struct entry_list_t {
+  /**
+   size of the array
+  */
+  size_t size;
+  /**
+   amount of elements the array contains
+  */
+  size_t capacity;
+  struct entry_t **entries;
+};
 
 extern ssize_t read_process_memory(const pid_t pid, void *const addr,
                                    char *const buffer, size_t size);
@@ -32,9 +44,9 @@ extern ssize_t write_process_memory(const pid_t pid, void *const addr,
                                     const uint8_t *const buffer,
                                     const size_t size);
 
-extern struct entry_list *scan_new(pid_t pid, void *start, size_t length,
-                            struct value_t search_for);
+extern struct entry_list_t *scan_new(pid_t pid, void *start, size_t length,
+                                     struct value_t search_for);
 
-extern struct entry_list *scan_old(pid_t pid, struct entry_list *entires,
-                                   struct value_t search_for);
+extern void scan_old(pid_t pid, struct entry_list_t *entires,
+                     struct value_t search_for);
 #endif /* MEMORY_H */
