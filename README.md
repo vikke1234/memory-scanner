@@ -1,7 +1,11 @@
 # OT project
 My project
 ## Week 1
-[komentorivi.txt](week1/komentorivi.txt)
+[komentorivi.txt](laskarit/week1/komentorivi.txt)
 
-[gitlog.txt](week1/gitlog.txt)
+[gitlog.txt](laskarit/week1/gitlog.txt)
+
+
+## Week 2
+[coverage.png](laskarit/week2/coverage.png)
 
