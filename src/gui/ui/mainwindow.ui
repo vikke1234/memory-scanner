@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>false</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -70,6 +73,9 @@
             <property name="enabled">
              <bool>false</bool>
             </property>
+            <property name="whatsThis">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Currently not available&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="text">
              <string>Undo scan</string>
             </property>
@@ -91,7 +97,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="search_for">
           <property name="enabled">
            <bool>false</bool>
           </property>
@@ -177,7 +183,11 @@
      </layout>
     </item>
     <item>
-     <widget class="QTreeView" name="saved_results"/>
+     <widget class="QTreeView" name="saved_results">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -200,6 +210,9 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionAttach">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Attach</string>
    </property>
@@ -226,6 +239,22 @@
     <hint type="destinationlabel">
      <x>502</x>
      <y>61</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAttach</sender>
+   <signal>triggered()</signal>
+   <receiver>new_scan</receiver>
+   <slot>toggle()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>446</x>
+     <y>55</y>
     </hint>
    </hints>
   </connection>
