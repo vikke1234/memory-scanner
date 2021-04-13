@@ -7,3 +7,11 @@ def start(ctx):
 @task
 def test(ctx):
     ctx.run("pytest --full-trace src")
+
+@task
+def coverage(ctx):
+    ctx.run("coverage run --branch -m pytest src")
+
+@task
+def coverage_report(ctx):
+    ctx.run("coverage html")
