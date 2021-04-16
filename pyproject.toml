@@ -5,16 +5,13 @@ description = "A memory scanner"
 authors = ["Viktor Horsmanheimo <viktor.horsmanheimo@helsinki.fi>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.6"
 PyQt5 = "^5.15.4"
-pybind11 = "^2.6.2"
 psutil = "^5.8.0"
 invoke = "^1.5.0"
-pytest-mock = "^3.5.1"
 
 [tool.poetry.dev-dependencies]
-ipython = "^7.22.0"
-pytest = "^6.2.2"
+pytest = "^6.2.3"
 coverage = "^5.5"
 
 [build-system]
