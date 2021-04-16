@@ -1,9 +1,11 @@
 import typing
+from typing import List
 
 from PyQt5.Qt import QAbstractTableModel, QModelIndex, Qt, QColorConstants
 from enum import IntEnum
 
 from Type import Type
+from Value import Value
 
 
 class HeaderEnum(IntEnum):
@@ -20,14 +22,16 @@ class FoundAddressModel(QAbstractTableModel):
     """
     def __init__(self, *args, data: list = None, **kwargs):
         super(FoundAddressModel, self).__init__(*args, **kwargs)
-        self.m_grid = data or []
+        self.values: list[Value] = data or []
 
     def data(self, index: QModelIndex, role: int = ...) -> typing.Any:
         if role == Qt.DisplayRole:
             if index.column() == HeaderEnum.ADDRESS:
-                return hex(self.m_grid[index.row()][index.column()])
-            else:
-                return self.m_grid[index.row()][index.column()]
+                return hex(self.values[index.row()].address)
+            if index.column() == HeaderEnum.PREVIOUS_VALUE:
+                return self.values[index.row()].value
+            if index.column() == HeaderEnum.CURRENT_VALUE:
+                return None  # todo
 
         if role == Qt.BackgroundRole:
             return QColorConstants.White if 2 == 0 else QColorConstants.Gray
@@ -37,23 +41,28 @@ class FoundAddressModel(QAbstractTableModel):
     def visit(self, address, value):
         self.insertRow(self.rowCount() + 1)
 
+    def insertRows(self, row: int, count: int, parent: QModelIndex = ...) -> bool:
+        self.beginInsertRows(QModelIndex(), row, row+count)
+        for i in range(count):
+            self.values.append(None)
+        self.endInsertRows()
+
     def rowCount(self, parent: QModelIndex = ...) -> int:
-        return len(self.m_grid)
+        return len(self.values)
 
     def columnCount(self, parent: QModelIndex = ...) -> int:
         return 3
 
     def headerData(self, section: int, orientation: Qt.Orientation, role: int = ...) -> typing.Any:
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
-            if section == 0:
+            if section == HeaderEnum.ADDRESS:
                 return "Address"
-            if section == 1:
+            if section == HeaderEnum.PREVIOUS_VALUE:
                 return "Previous value"
-            if section == 2:
+            if section == HeaderEnum.CURRENT_VALUE:
                 return "Value"
         return None
 
-    def update_table(self, value_str: str, byte_size_index: int, ishex=False):
-        _type = Type(byte_size_index)
-        value = _type.parse_value(value_str)
-
+    def setValues(self, values: List[Value]):
+        self.insertRows(0, len(values), self)
+        self.values = values
