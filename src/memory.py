@@ -1,9 +1,10 @@
-import psutil
 import struct
 import typing
 
-from Type import Type
-from Value import Value
+import psutil
+
+from type import Type
+from value import Value
 
 
 def _get_pid(name: str) -> int:
@@ -15,15 +16,17 @@ def _get_pid(name: str) -> int:
     for proc in psutil.process_iter():
         if name in proc.name():
             return proc.pid
+    return 0
 
 
 class Memory:
     """
-    This class is for reading/writing to another process, optimally you'd probably map the pages you wanted to
-    read/write to the current process but we'll see, initially I'll use /proc/{pid}/maps
+    This class is for reading/writing to another process, optimally you'd probably map the pages
+    you wanted to read/write to the current process but we'll see, initially I'll use
+    /proc/{pid}/maps
 
-    It's quite unlikely that this class will receive unit tests since it's very easy to manually test this but quite hard
-    to make automatic tests for it.
+    It's quite unlikely that this class will receive unit tests since it's very easy to manually
+    test this but quite hard to make automatic tests for it. If it will, it will probably use mocks
     """
 
     def __init__(self):
@@ -89,20 +92,24 @@ class Memory:
 
 
         NOTE: this could probably read a page at a time, I'll have to do performance tests though
-        this should also be optimized a lot more, wastes quite a lot of memory currently as it creates a new
-        list each time it filters the results though on "new" computers it would probably not be an issue
+        this should also be optimized a lot more, wastes quite a lot of memory currently as it
+        creates a new list each time it filters the results though on "new" computers it would
+        probably not be an issue
+
         :param value: value to compare to
         :param value_type: type of the value
-        :param aligned: whether or not the search should be aligned or not, ignored if not initial scan
+        :param aligned: if search should be aligned or not, ignored if not initial scan
         :return:
         """
         if isinstance(value, str):
+            if value == "":
+                return self.entries
             value = value_type.parse_value(value)
 
         if self.entries is None:
             return self._scan_initial(value, value_type, aligned)
-        else:
-            return self._scan_cull(value, value_type)
+
+        return self._scan_cull(value, value_type)
 
     def _scan_initial(self, value: typing.Any, value_type: Type, aligned: bool = True):
         """
@@ -117,30 +124,33 @@ class Memory:
 
         for mem_map in self.process.memory_maps(grouped=False):
             if mem_map.path in ("[vvar]", "[vsyscall]") or "r" not in mem_map.perms:
-                continue  # There seems to be some bug that you cannot read from vvar from an outside process
+                # There seems to be some bug that you cannot read from vvar from an
+                # outside process
+                continue
 
             print("scanning range:", mem_map.addr)
             addr = int(mem_map.addr.split("-")[0], 16)
             map_size = int(mem_map.size)
 
             for i in range(0, map_size, offset):
-                read_value = self.read(addr+i, value_type)
+                read_value = self.read(addr + i, value_type)
 
                 if read_value == value:
-                    self.entries.append(Value(addr + i, value_type, read_value))
+                    self.entries.append(
+                        Value(addr + i, value_type, read_value))
 
         return self.entries
 
     def _scan_cull(self, value: typing.Any, value_type: Type):
         if self.entries is None:
-            return
+            return []
         new_list: list = []
 
-        for e in self.entries:
-            new_value = self.read(e.address, e.type)
+        for entry in self.entries:
+            new_value = self.read(entry.address, entry.type)
 
             if new_value == value:
-                new_list.append(e)
+                new_list.append(entry)
 
         self.entries = new_list
         return self.entries

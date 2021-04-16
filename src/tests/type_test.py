@@ -1,5 +1,6 @@
 import unittest
-from Type import Type
+
+from type import Type
 
 
 class TypeTest(unittest.TestCase):

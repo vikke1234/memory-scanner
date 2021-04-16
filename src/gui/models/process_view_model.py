@@ -1,7 +1,8 @@
-from PyQt5.Qt import QAbstractTableModel, QModelIndex, Qt
-from enum import IntEnum
-import psutil
 import typing
+from enum import IntEnum
+
+import psutil
+from PyQt5.Qt import QAbstractTableModel, QModelIndex, Qt
 
 
 class HeaderEnum(IntEnum):
@@ -13,7 +14,7 @@ class HeaderEnum(IntEnum):
 
 class ProcessViewModel(QAbstractTableModel):
     def __init__(self, *args, **kwargs):
-        super(ProcessViewModel, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.processes = list(psutil.process_iter())
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
@@ -45,5 +46,6 @@ class ProcessViewModel(QAbstractTableModel):
             if index.column() == HeaderEnum.PATH:
                 try:
                     return self.processes[index.row()].exe()
-                except psutil.AccessDenied as e:
+                except psutil.AccessDenied:
                     return ""
+        return None

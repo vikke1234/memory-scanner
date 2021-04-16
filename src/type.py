@@ -20,7 +20,8 @@ class Type(enum.IntEnum):
         """
         :return: the struct format for the given type
         """
-        type_to_format = {Type.UINT8: "B", Type.UINT16: "H", Type.UINT32: "I", Type.UINT64: "Q"}
+        type_to_format = {Type.UINT8: "B", Type.UINT16: "H",
+                          Type.UINT32: "I", Type.UINT64: "Q"}
         return type_to_format[self]
 
     def parse_value(self, value_str: str, ishex=False):

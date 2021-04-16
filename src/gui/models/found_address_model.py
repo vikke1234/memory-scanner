@@ -1,11 +1,10 @@
 import typing
 from typing import List
-
-from PyQt5.Qt import QAbstractTableModel, QModelIndex, Qt, QColorConstants
 from enum import IntEnum
 
-from Type import Type
-from Value import Value
+from PyQt5.Qt import QAbstractTableModel, QModelIndex, Qt, QColorConstants
+
+from value import Value
 
 
 class HeaderEnum(IntEnum):
@@ -17,12 +16,13 @@ class HeaderEnum(IntEnum):
 class FoundAddressModel(QAbstractTableModel):
     """
     Model for the found addresses table to the left of the scan form
-    TODO: it would be pretty cool to add a feature that tries to update the values constantly, which is why
-    the table has a "previous value" header though initially this will not be done
+    TODO: it would be pretty cool to add a feature that tries to update the values constantly, which
+    is why the table has a "previous value" header though initially this will not be done
     """
+
     def __init__(self, *args, data: list = None, **kwargs):
         super(FoundAddressModel, self).__init__(*args, **kwargs)
-        self.values: list[Value] = data or []
+        self.values: List[Value] = data or []
 
     def data(self, index: QModelIndex, role: int = ...) -> typing.Any:
         if role == Qt.DisplayRole:
@@ -38,12 +38,9 @@ class FoundAddressModel(QAbstractTableModel):
 
         return None
 
-    def visit(self, address, value):
-        self.insertRow(self.rowCount() + 1)
-
     def insertRows(self, row: int, count: int, parent: QModelIndex = ...) -> bool:
         self.beginInsertRows(QModelIndex(), row, row+count)
-        for i in range(count):
+        for _ in range(count):
             self.values.append(None)
         self.endInsertRows()
 
@@ -63,6 +60,6 @@ class FoundAddressModel(QAbstractTableModel):
                 return "Value"
         return None
 
-    def setValues(self, values: List[Value]):
+    def set_values(self, values: List[Value]):
         self.insertRows(0, len(values), self)
         self.values = values

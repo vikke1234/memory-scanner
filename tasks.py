@@ -6,7 +6,8 @@ def start(ctx):
 
 @task
 def test(ctx):
-    # for some reason src isn't added to the pythonpath on some systems so this is a workaround for that
+    # for some reason src isn't added to the pythonpath on some systems so this is a workaround
+    # for that
     ctx.run("PYTHONPATH=src pytest --full-trace src")
 
 @task
@@ -16,3 +17,11 @@ def coverage(ctx):
 @task
 def coverage_report(ctx):
     ctx.run("coverage html")
+
+@task
+def lint(ctx):
+    ctx.run("pylint src")
+
+@task
+def reformat(ctx):
+    ctx.run("autopep8 --in-place --recursive src")
