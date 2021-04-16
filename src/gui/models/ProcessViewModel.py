@@ -10,6 +10,7 @@ class HeaderEnum(IntEnum):
     USER = 2
     PATH = 3
 
+
 class ProcessViewModel(QAbstractTableModel):
     def __init__(self, *args, **kwargs):
         super(ProcessViewModel, self).__init__(*args, **kwargs)
