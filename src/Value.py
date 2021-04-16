@@ -20,9 +20,9 @@ class Value:
 
     """
     def __init__(self, address: int, typeof: Type, value: typing.Any):
-        self.__address = address
-        self.__type = value
-        self.__value = typeof
+        self.address = address
+        self.type = typeof
+        self.value = value
 
     def read(self):
         raise NotImplementedError("read not implemented")
