@@ -8,7 +8,7 @@ an older one as long as it's above 3.5 due to the `typing` module.
 I do not guarantee it will work on anything below `3.9` though.
 
 ## Documentation
--  [Project spec](project_spec.md)
+-  [Project spec](documentation/project_spec.md)
 
 
 ## Installation
