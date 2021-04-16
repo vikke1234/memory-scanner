@@ -96,6 +96,9 @@ class Memory:
         :param aligned: whether or not the search should be aligned or not, ignored if not initial scan
         :return:
         """
+        if isinstance(value, str):
+            value = value_type.parse_value(value)
+
         if self.entries is None:
             return self._scan_initial(value, value_type, aligned)
         else:
@@ -134,7 +137,7 @@ class Memory:
         new_list: list = []
 
         for e in self.entries:
-            new_value = self.read(e.__address, e.__type)
+            new_value = self.read(e.address, e.type)
 
             if new_value == value:
                 new_list.append(e)

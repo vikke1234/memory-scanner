@@ -22,14 +22,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.found_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.new_scan.clicked.connect(self.new_scan_clicked)
+        self.next_scan.clicked.connect(self.next_scan_clicked)
         self.actionAttach.triggered.connect(self.attach_triggered)
 
     def new_scan_clicked(self):
-        values = self.memory.scan(123, Type(self.scan_byte_size.currentIndex()), aligned=self.aligned.isChecked())
-        self.found_table.model().setValues(values)
+        if self.next_scan.isEnabled():
+            self.next_scan.setEnabled(False)
+            self.found_table.model().setValues([])
+            self.memory.reset_scan()
+        else:
+            self.next_scan_clicked()
+            self.next_scan.setEnabled(True)
 
     def next_scan_clicked(self):
-        pass
+        values = self.memory.scan(self.search_for.text(), Type(self.scan_byte_size.currentIndex()), aligned=self.aligned.isChecked())
+        self.found_table.model().setValues(values)
 
     def attach_triggered(self):
         process_view = ProcessView()
