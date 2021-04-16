@@ -9,6 +9,7 @@ class ProcessView(QDialog, Ui_ProcessViewDialog):
         self.process_table.setModel(ProcessViewModel())
         self.process_table.horizontalHeader().stretchLastSection()
 
+        self.process_table.doubleClicked.connect(self.attach)
         self.attach_button.clicked.connect(self.attach)
         self.cancel_button.clicked.connect(lambda: self.reject())
 
