@@ -22,7 +22,7 @@ class Value:
 
     """
 
-    def __init__(self, address: int, typeof: Type, value: typing.Any):
+    def __init__(self, address: int, value: typing.Any, typeof: Type = Type.UINT32):
         self.address = address
         self.type = typeof
         self.value = value
@@ -39,11 +39,9 @@ class Value:
         :param other:
         :return: returns true if the type and address match
         """
-        if isinstance(other, int):
-            return self.value == other
         if isinstance(other, Value):
             return self.type == other.type and self.address == other.address
-        return False
+        return self.value == other
 
     def __str__(self):
         return str(self.value)

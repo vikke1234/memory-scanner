@@ -57,6 +57,7 @@ class Memory:
         """
         read size bytes from the processes memory
         :param address: address to read from
+        :param type_: the type to look for
         :param size: bytes to read
         :return: the bytes
         """
@@ -83,13 +84,17 @@ class Memory:
         raise NotImplementedError("progress not implemented")
 
     def reset_scan(self):
+        """
+        resets the current search results
+        :return: None
+        """
         self.entries = None
 
     def scan(self, value: typing.Any, value_type: Type = Type.UINT32, aligned: bool = True):
         """
         scans the memory for a given number
         TODO: add more configuration of what to search, e.g. only look in stack, non executables etc
-
+        also, threading
 
         NOTE: this could probably read a page at a time, I'll have to do performance tests though
         this should also be optimized a lot more, wastes quite a lot of memory currently as it
@@ -109,7 +114,7 @@ class Memory:
         if self.entries is None:
             return self._scan_initial(value, value_type, aligned)
 
-        return self._scan_cull(value, value_type)
+        return self._scan_cull(value)
 
     def _scan_initial(self, value: typing.Any, value_type: Type, aligned: bool = True):
         """
@@ -137,11 +142,11 @@ class Memory:
 
                 if read_value == value:
                     self.entries.append(
-                        Value(addr + i, value_type, read_value))
+                        Value(addr + i, read_value, value_type))
 
         return self.entries
 
-    def _scan_cull(self, value: typing.Any, value_type: Type):
+    def _scan_cull(self, value: typing.Any):
         if self.entries is None:
             return []
         new_list: list = []
