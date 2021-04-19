@@ -10,7 +10,7 @@ I do not guarantee it will work on anything below `3.9` though.
 ## Documentation
 - [Project spec](documentation/project_spec.md)
 - [Hours spent](documentation/hours_spent.md)
-- 
+- [Architecture](documentation/architecture.md)
 
 ## Installation
 1. Install dependencies

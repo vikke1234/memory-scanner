@@ -15,8 +15,8 @@ class InternalMmap:
         self.size = size
         self.perms = perms
 
-class MemoryTest(unittest.TestCase):
 
+class MemoryTest(unittest.TestCase):
     def setUp(self) -> None:
         self.memory = Memory()
         # just attach to own process, we're overriding the read values anyway
