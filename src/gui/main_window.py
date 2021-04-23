@@ -34,6 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def next_scan_clicked(self):
         values = self.memory.scan(self.search_for.text(), Type(
             self.scan_byte_size.currentIndex()), aligned=self.aligned.isChecked())
+        self.amount_found.setText("Found: {}".format(len(values)))
         self.found_table.model().set_values(values)
 
     def attach_triggered(self):
