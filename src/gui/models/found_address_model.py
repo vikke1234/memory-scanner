@@ -1,20 +1,15 @@
 import typing
-import time
-from typing import List
 from enum import IntEnum
+from typing import List
 
 from PyQt5.Qt import \
     QAbstractTableModel, \
     QModelIndex, \
-    Qt, \
-    QColorConstants, \
-    QThread, \
-    QVariant
+    Qt
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
-from PyQt5.QtGui import QBrush
 
-from value import Value
 from gui.threads.update_scanresult import UpdateThread
+from value import Value
 
 
 class HeaderEnum(IntEnum):
@@ -90,14 +85,14 @@ class FoundAddressModel(QAbstractTableModel):
         return False
 
     def insertRows(self, row: int, count: int, parent: QModelIndex = ...) -> bool:
-        self.beginInsertRows(parent, row, row+count)
+        self.beginInsertRows(parent, row, row + count)
         for _ in range(count):
             self.values.append(None)
         self.endInsertRows()
 
     def removeRows(self, row: int, count: int, parent: QModelIndex = ...) -> bool:
         self.beginRemoveRows(QModelIndex(), row, row + count - 1)
-        del self.values[row:row+count]
+        del self.values[row:row + count]
         self.endRemoveRows()
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
@@ -131,7 +126,6 @@ class FoundAddressModel(QAbstractTableModel):
         self.dataChanged.emit(top_left, bottom_right)
         self.table_changed_signal.emit()
 
-
     @pyqtSlot(int)
     def current_value_changed(self, row):
         """
@@ -142,7 +136,6 @@ class FoundAddressModel(QAbstractTableModel):
         value = self.values[row]
         index = self.index(row, HeaderEnum.CURRENT_VALUE, QModelIndex())
         self.setData(index, value.value)
-
 
     @pyqtSlot()
     def table_changed(self):
