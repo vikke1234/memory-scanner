@@ -28,23 +28,23 @@ class Ui_MainWindow(object):
         self.amount_found.setObjectName("amount_found")
         self.verticalLayout_4.addWidget(self.amount_found)
         self.found_table = QtWidgets.QTableView(self.centralwidget)
+        self.found_table.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.found_table.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
+        self.found_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
         self.found_table.setAlternatingRowColors(True)
-        self.found_table.setSelectionMode(
-            QtWidgets.QAbstractItemView.SingleSelection)
-        self.found_table.setSelectionBehavior(
-            QtWidgets.QAbstractItemView.SelectRows)
+        self.found_table.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.found_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
+        self.found_table.setShowGrid(False)
         self.found_table.setGridStyle(QtCore.Qt.NoPen)
         self.found_table.setObjectName("found_table")
         self.verticalLayout_4.addWidget(self.found_table)
         self.horizontalLayout_4.addLayout(self.verticalLayout_4)
         self.scan_widget = QtWidgets.QWidget(self.centralwidget)
         self.scan_widget.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.MinimumExpanding, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.scan_widget.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.scan_widget.sizePolicy().hasHeightForWidth())
         self.scan_widget.setSizePolicy(sizePolicy)
         self.scan_widget.setMinimumSize(QtCore.QSize(0, 0))
         self.scan_widget.setObjectName("scan_widget")
@@ -66,8 +66,7 @@ class Ui_MainWindow(object):
         self.undo_scan.setEnabled(False)
         self.undo_scan.setObjectName("undo_scan")
         self.search_button_layout.addWidget(self.undo_scan)
-        spacerItem = QtWidgets.QSpacerItem(
-            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.search_button_layout.addItem(spacerItem)
         self.scan_layout.addLayout(self.search_button_layout)
         self.search_for = QtWidgets.QLineEdit(self.scan_widget)
@@ -93,12 +92,10 @@ class Ui_MainWindow(object):
         self.aligned.setChecked(True)
         self.aligned.setObjectName("aligned")
         self.horizontalLayout_7.addWidget(self.aligned)
-        spacerItem1 = QtWidgets.QSpacerItem(
-            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_7.addItem(spacerItem1)
         self.scan_layout.addLayout(self.horizontalLayout_7)
-        spacerItem2 = QtWidgets.QSpacerItem(
-            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.scan_layout.addItem(spacerItem2)
         self.verticalLayout.addLayout(self.scan_layout)
         self.horizontalLayout_4.addWidget(self.scan_widget)
@@ -134,15 +131,14 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.amount_found.setToolTip(_translate("MainWindow", "A max of 100 000 entries will be shown at a time"))
         self.amount_found.setText(_translate("MainWindow", "Found: 0"))
         self.new_scan.setText(_translate("MainWindow", "New scan"))
         self.next_scan.setText(_translate("MainWindow", "Next scan"))
-        self.undo_scan.setWhatsThis(_translate(
-            "MainWindow", "<html><head/><body><p>Currently not available</p></body></html>"))
+        self.undo_scan.setWhatsThis(_translate("MainWindow", "<html><head/><body><p>Currently not available</p></body></html>"))
         self.undo_scan.setText(_translate("MainWindow", "Undo scan"))
         self.search_for.setPlaceholderText(_translate("MainWindow", "Search"))
-        self.scan_matching.setItemText(
-            0, _translate("MainWindow", "Exact value"))
+        self.scan_matching.setItemText(0, _translate("MainWindow", "Exact value"))
         self.scan_byte_size.setItemText(0, _translate("MainWindow", "1 Byte"))
         self.scan_byte_size.setItemText(1, _translate("MainWindow", "2 Bytes"))
         self.scan_byte_size.setItemText(2, _translate("MainWindow", "4 Bytes"))
@@ -150,6 +146,5 @@ class Ui_MainWindow(object):
         self.aligned.setText(_translate("MainWindow", "Aligned"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionAttach.setText(_translate("MainWindow", "Attach"))
-        self.actionAttach.setToolTip(_translate(
-            "MainWindow", "Attach to a process"))
+        self.actionAttach.setToolTip(_translate("MainWindow", "Attach to a process"))
         self.actionAttach.setShortcut(_translate("MainWindow", "F2"))

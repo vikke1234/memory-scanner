@@ -27,7 +27,7 @@ class MemoryTest(unittest.TestCase):
     def test_scan(self, read_mock: Mock, mem_map_mock: Mock):
         read_mock.side_effect = [123, 123]
         mem_map_mock.return_value = [InternalMmap("0-8", 8, "r--w")]
-        self.assertEqual(self.memory.scan("123"), [Value(0, 123), Value(4, 123)])
+        self.assertEqual(self.memory.scan("123"), [Value(0, 0, 123), Value(0, 4, 123)])
 
     @mock.patch.object(psutil.Process, "memory_maps", autospec=True)
     @mock.patch.object(Memory, "read", autospec=True)

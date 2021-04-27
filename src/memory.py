@@ -1,8 +1,10 @@
 import struct
 import typing
+from abc import ABC
 
 import psutil
 
+from binary_io import BinaryIO
 from type import Type
 from value import Value
 
@@ -19,7 +21,7 @@ def _get_pid(name: str) -> int:
     return 0
 
 
-class Memory:
+class Memory(BinaryIO, ABC):
     """
     This class is for reading/writing to another process, optimally you'd probably map the pages
     you wanted to read/write to the current process but we'll see, initially I'll use
@@ -35,12 +37,14 @@ class Memory:
 
         :param pid: pid or name of process
         """
+        super().__init__()
         self.pid: int = 0
         self.memory: typing.BinaryIO = None
         self.process: psutil.Process = None
-        self.entries: list[Value] = None
+        self.entries: typing.List[Value] = None
 
     def attach(self, pid: int):
+        self.pid = pid
         self.memory = open(f"/proc/{pid}/mem", "r+b")
         self.process = psutil.Process(pid)
 
@@ -52,6 +56,7 @@ class Memory:
             self.memory.close()
         self.memory = None
         self.process = None
+        self.pid = 0
 
     def read(self, address: int, type_: Type) -> typing.Any:
         """
@@ -141,20 +146,22 @@ class Memory:
                 read_value = self.read(addr + i, value_type)
 
                 if read_value == value:
-                    self.entries.append(
-                        Value(addr + i, read_value, value_type))
+                    self.entries.append(Value(self.pid, addr + i, read_value, value_type))
 
         return self.entries
 
     def _scan_cull(self, value: typing.Any):
         if self.entries is None:
             return []
-        new_list: list = []
+        new_list: typing.List[Value] = []
 
         for entry in self.entries:
+            # doesn't use it's own read function since it requires opening a new fd and since
+            # we want it to be as fast as possible, we don't use it.
             new_value = self.read(entry.address, entry.type)
 
             if new_value == value:
+                entry.previous_value = value
                 new_list.append(entry)
 
         self.entries = new_list

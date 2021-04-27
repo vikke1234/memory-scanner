@@ -9,6 +9,7 @@ python = "^3.6"
 PyQt5 = "^5.15.4"
 psutil = "^5.8.0"
 invoke = "^1.5.0"
+PyQt5-stubs = "^5.15.2"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"

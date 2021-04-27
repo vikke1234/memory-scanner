@@ -24,6 +24,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
          <widget class="QLabel" name="amount_found">
+          <property name="toolTip">
+           <string>A max of 100 000 entries will be shown at a time</string>
+          </property>
           <property name="text">
            <string>Found: 0</string>
           </property>
@@ -34,6 +37,15 @@
         </item>
         <item>
          <widget class="QTableView" name="found_table">
+          <property name="verticalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOn</enum>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAsNeeded</enum>
+          </property>
+          <property name="sizeAdjustPolicy">
+           <enum>QAbstractScrollArea::AdjustIgnored</enum>
+          </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
@@ -42,6 +54,9 @@
           </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
+          </property>
+          <property name="showGrid">
+           <bool>false</bool>
           </property>
           <property name="gridStyle">
            <enum>Qt::NoPen</enum>
@@ -265,6 +280,12 @@
    </property>
    <property name="toolTip">
     <string>Attach to a process</string>
+   </property>
+   <property name="statusTip">
+    <string>Disabled if you're not root</string>
+   </property>
+   <property name="whatsThis">
+    <string>Disabled if you're not root</string>
    </property>
    <property name="shortcut">
     <string>F2</string>

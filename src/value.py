@@ -1,9 +1,10 @@
 import typing
 
 from type import Type
+from binary_io import BinaryIO
 
 
-class Value:
+class Value(BinaryIO):
     """
     Represents a value in memory
 
@@ -22,16 +23,26 @@ class Value:
 
     """
 
-    def __init__(self, address: int, value: typing.Any, typeof: Type = Type.UINT32):
+    def __init__(self, pid: int,  address: int, value: typing.Any, typeof: Type = Type.UINT32):
+        """
+
+        :param pid: pid of the process the value belongs to
+        :param address: address of the value
+        :param value:
+        :param typeof:
+        """
+        super().__init__(pid)
         self.address = address
         self.type = typeof
         self.value = value
+        self.previous_value = value
 
     def read(self):
-        raise NotImplementedError("read not implemented")
+        self.value = super()._read(self.address, self.type)
+        return self.value
 
-    def write(self, value):
-        raise NotImplementedError("write not implemented")
+    def write(self, address):
+        pass
 
     def __eq__(self, other):
         """
