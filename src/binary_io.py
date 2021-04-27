@@ -34,7 +34,7 @@ class BinaryIO(ABC):
         with open(f"/proc/{self.pid}/mem", "rb") as fd:
             fd.seek(address)
             decode_format = value_type.get_format()
-            size = value_type.size()
+            size = value_type.size
             bytes_read = fd.read(size)
 
             return struct.unpack(decode_format, bytes_read)[0]

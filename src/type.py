@@ -26,6 +26,7 @@ class Type(enum.IntEnum):
     UINT32 = 2
     UINT64 = 3
 
+    @property
     def size(self):
         """
         :return: gets the size of a type in bytes

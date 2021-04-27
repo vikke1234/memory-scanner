@@ -83,7 +83,7 @@ class Memory(BinaryIO, ABC):
         :return: the bytes
         """
         self.memory.seek(int(address))
-        buf = self.memory.read(type_.size())
+        buf = self.memory.read(type_.size)
         return struct.unpack(type_.get_format(), buf)[0]
 
     def write(self, address: int, data: typing.Any) -> None:
@@ -145,7 +145,7 @@ class Memory(BinaryIO, ABC):
         :param aligned: whether or not the search will be aligned or not
         :return: a list of entries found
         """
-        offset = value_type.size() if aligned else 1
+        offset = value_type.size if aligned else 1
         self.entries = []
 
         for mem_map in self.process.memory_maps(grouped=False):
