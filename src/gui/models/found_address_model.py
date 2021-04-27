@@ -1,3 +1,19 @@
+#      This file is part of ot-project.
+#
+#      ot-project is free software: you can redistribute it and/or modify
+#      it under the terms of the GNU General Public License as published by
+#      the Free Software Foundation, either version 3 of the License, or
+#      (at your option) any later version.
+#
+#      ot-project is distributed in the hope that it will be useful,
+#      but WITHOUT ANY WARRANTY; without even the implied warranty of
+#      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#      GNU General Public License for more details.
+#
+#      You should have received a copy of the GNU General Public License
+#      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+#
+
 import typing
 from enum import IntEnum
 from typing import List
@@ -38,7 +54,7 @@ class FoundAddressModel(QAbstractTableModel):
 
         """
         NOTE: THIS LAMBDA IS INTENTIONAL, IT WILL NOT WORK IF YOU REMOVE THE LAMBDA AND WILL NOT
-        WORK. https://machinekoder.com/how-to-not-shoot-yourself-in-the-foot-using-python-qt/
+        WORK. https://machinekoder.com/how-to-not-shoot-yourself-in-the-foot-using-python-qt/how-to-not-shoot-yourself-in-the-foot-using-python-qt
         """
         self.destroyed.connect(lambda: self.__unregister())
 
