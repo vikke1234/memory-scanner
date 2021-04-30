@@ -23,7 +23,6 @@ from type import Type
 from gui.dialogs.process_view import ProcessView
 from gui.models.found_address_model import FoundAddressModel
 from gui.ui.widgets.mainwindow import Ui_MainWindow
-from gui.models.saved_address_model import SavedAddressModel
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -35,7 +34,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.scan_widget.setEnabled(False)
 
         self.found_table.setModel(FoundAddressModel(self))
-        self.saved_results.setModel(SavedAddressModel(self))
 
         self.found_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
         self.new_scan.clicked.connect(self.new_scan_clicked)
