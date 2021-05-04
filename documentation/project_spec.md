@@ -7,8 +7,8 @@ You should also be able to write to the addresses.
 
 # Basic functionality
 - ~~Ability to look for things numbers in memory and narrow them down~~
-- Automatically update the table of found addresses
-- Save the found addresses
+- ~~Automatically update the table of found addresses~~
+- ~~Save the found addresses~~
 - Write to the addresses
 
 # Future implementation ideas
