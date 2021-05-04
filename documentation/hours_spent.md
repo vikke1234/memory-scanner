@@ -11,3 +11,6 @@ to how long I was working.
 | 18.4 | 2     | Worked on tests for the scanning |
 | 19.4 | 1     | Added the architecture document |
 | 27.4 | 5     | Made the reading values better, as well as automatic updating on the values|
+| 3.5  | 3     | Tried to add the tree view to save the results |
+| 4.5  | 2     | Made the treeview work |
+|Total | 30    ||
