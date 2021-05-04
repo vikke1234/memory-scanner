@@ -14,11 +14,11 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from typing import List
 from time import sleep
+from typing import List
 
-from PyQt5.Qt import QThread, QMutex
-from PyQt5.QtCore import pyqtSlot, pyqtSignal, QVariant
+from PyQt5.Qt import QThread
+from PyQt5.QtCore import pyqtSignal
 
 from value import Value
 

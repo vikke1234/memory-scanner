@@ -14,10 +14,11 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+import os
 import typing
 
-from type import Type
 from binary_io import BinaryIO
+from type import Type
 
 
 class Value(BinaryIO):
@@ -39,7 +40,7 @@ class Value(BinaryIO):
 
     """
 
-    def __init__(self, pid: int,  address: int, value: typing.Any, typeof: Type = Type.UINT32):
+    def __init__(self, pid: int, address: int, value: typing.Any, typeof: Type = Type.UINT32):
         """
 
         :param pid: pid of the process the value belongs to
@@ -54,6 +55,12 @@ class Value(BinaryIO):
         self.previous_value = value
 
     def read(self):
+        """
+        reads a memory address and updates the value
+        :return: value read
+        """
+        if os.path.isfile(f"/proc/{self.pid}/mem"):
+            return self.value
         self.value = super()._read(self.address, self.type)
         return self.value
 
