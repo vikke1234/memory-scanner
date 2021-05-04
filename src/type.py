@@ -51,6 +51,8 @@ class Type(enum.IntEnum):
         :param ishex: if the value is in hex
         :return: returns the correct value as a non string
         """
+        # self.value is NOT a callable...
+        # pylint: disable=comparison-with-callable
         if self.value < 4:
             return int(value_str, 16 if ishex else 10)
         return None

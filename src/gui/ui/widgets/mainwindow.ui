@@ -237,7 +237,7 @@
     <item>
      <widget class="QTreeView" name="saved_results">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
      </widget>
     </item>

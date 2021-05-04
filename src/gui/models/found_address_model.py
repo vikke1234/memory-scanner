@@ -142,6 +142,11 @@ class FoundAddressModel(QAbstractTableModel):
         self.dataChanged.emit(top_left, bottom_right)
         self.table_changed_signal.emit()
 
+    def get_value(self, row):
+        if 0 <= row < len(self.values):
+            return self.values[row]
+        return None
+
     @pyqtSlot(int)
     def current_value_changed(self, row):
         """
