@@ -1,4 +1,6 @@
 # Program architecture
+![Sequence diagram](diagrams/sequencediagram.png)
+
 ## Structure
 The structure is pretty simple, the gui stuff will reside within [gui](../src/gui)
 and the Qt ui files will then reside withing the ui folder. All the "relevant"
