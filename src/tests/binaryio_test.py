@@ -13,21 +13,21 @@
 #      You should have received a copy of the GNU General Public License
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
-
+import struct
 import unittest
+from unittest.mock import patch, mock_open
 
+from binary_io import BinaryIO
 from type import Type
 
 
-class TypeTest(unittest.TestCase):
+class BinaryIOTest(unittest.TestCase):
     def setUp(self) -> None:
-        self._type: Type = Type.UINT32
+        self.io = BinaryIO()
 
-    def test_parse_int_hex(self):
-        self.assertEqual(self._type.parse_value("0x123", ishex=True), 0x123)
+    def test_read(self):
+        read_data = struct.pack("I", 123)
+        mocked_open = mock_open(read_data=read_data)
 
-    def test_parse_int(self):
-        self.assertEqual(self._type.parse_value("123"), 123)
-
-    def test_get_format(self):
-        self.assertEqual(self._type.get_format(), "I")
+        with patch("builtins.open", mocked_open):
+            self.assertEqual(self.io._read(0, Type.UINT32), 123)

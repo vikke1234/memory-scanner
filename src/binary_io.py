@@ -20,6 +20,12 @@ from type import Type
 
 
 class BinaryIO:
+    """
+    Currently I have no clue how I should implement writing so I'm removing the functionality
+    for now since it's not used anyway, I might honestly just make it an abstract function that will
+    be implemented in their respective classes somehow though I have absolutely no idea yet.
+    """
+
     def __init__(self, pid: int = 0):
         self.pid = pid
 
@@ -37,9 +43,3 @@ class BinaryIO:
             bytes_read = mem.read(size)
 
             return struct.unpack(decode_format, bytes_read)[0]
-
-    def _write(self, address: int, value):
-        with open(f"/proc/{self.pid}/mem", "wb") as mem:
-            mem.seek(address)
-            packed = struct.pack(value.type.get_format(), value.value)
-            mem.write(packed)
