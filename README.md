@@ -2,6 +2,8 @@
 With the help of this program you can scan and use the process 
 of elimination to find a variable in memory.
 
+[Latest release](https://github.com/vikke1234/ot-project/releases/tag/v0.2.0)
+
 ### Python version
 This has been tested with `python 3.9`, it will probably work with
 an older one as long as it's above 3.5 due to the `typing` module. 
@@ -70,4 +72,9 @@ poetry run invoke coverage-report
 ### Lint
 ```shell
 poetry run invoke lint
+```
+
+### Freeze
+```shell
+poetry run invoke freeze
 ```
