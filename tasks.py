@@ -28,4 +28,4 @@ def reformat(ctx):
 
 @task
 def freeze(ctx):
-    ctx.run("pyinstalled --onefile --windowed src/index.py")
+    ctx.run("pyinstaller src/index.py")
