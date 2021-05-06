@@ -50,13 +50,13 @@ class FoundAddressModel(QAbstractTableModel):
 
         # this indicates when the entire table is set, so it knows when to start a new thread
         self.current_value_update_thread.changed_value.connect(self.current_value_changed)
-        self.table_changed_signal.connect(self.table_changed)
 
         """
         NOTE: THIS LAMBDA IS INTENTIONAL, IT WILL NOT WORK IF YOU REMOVE THE LAMBDA AND WILL NOT
         WORK. https://machinekoder.com/how-to-not-shoot-yourself-in-the-foot-using-python-qt/how-to-not-shoot-yourself-in-the-foot-using-python-qt
         """
         self.destroyed.connect(lambda: self.__unregister())
+        self.table_changed_signal.connect(self.table_changed)
 
     def __unregister(self):
         """
@@ -95,7 +95,7 @@ class FoundAddressModel(QAbstractTableModel):
             elif index.column() == HeaderEnum.ADDRESS:
                 self.values[row].address = value
 
-            self.dataChanged.emit(index, index, role)
+            self.dataChanged.emit(index, index)
             return True
 
         return False
@@ -147,7 +147,7 @@ class FoundAddressModel(QAbstractTableModel):
             return self.values[row]
         return None
 
-    @pyqtSlot(int)
+    @pyqtSlot(int, )
     def current_value_changed(self, row):
         """
         slot to update a given rows value
@@ -168,4 +168,5 @@ class FoundAddressModel(QAbstractTableModel):
 
         if len(self.values) > 0:
             self.current_value_update_thread = UpdateThread(self.values, self)
+            self.current_value_update_thread.changed_value.connect(self.current_value_changed)
             self.current_value_update_thread.start()

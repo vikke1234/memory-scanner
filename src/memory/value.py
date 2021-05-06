@@ -59,7 +59,7 @@ class Value(BinaryIO):
         reads a memory address and updates the value
         :return: value read
         """
-        if os.path.isfile(f"/proc/{self.pid}/mem"):
+        if not os.path.isfile(f"/proc/{self.pid}/mem"):
             return self.value
         self.value = super()._read(self.address, self.type)
         return self.value

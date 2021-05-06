@@ -22,6 +22,7 @@ from PyQt5.QtCore import pyqtSignal
 
 from memory.value import Value
 
+
 class UpdateThread(QThread):
     changed_value = pyqtSignal(int)
 
