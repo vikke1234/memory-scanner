@@ -74,17 +74,18 @@ class Memory(BinaryIO, ABC):
         self.process = None
         self.pid = 0
 
-    def read(self, address: int, type_: Type) -> typing.Any:
+    def read(self, address: int, size: int, format_: str) -> typing.Any:
         """
         read size bytes from the processes memory
         :param address: address to read from
-        :param type_: the type to look for
         :param size: bytes to read
+        :param format_: struct format string
+
         :return: the bytes
         """
         self.memory.seek(int(address))
-        buf = self.memory.read(type_.size)
-        return struct.unpack(type_.get_format(), buf)[0]
+        buf = self.memory.read(size)
+        return struct.unpack(format_, buf)[0]
 
     def write(self, address: int, data: typing.Any) -> None:
         """
@@ -147,6 +148,8 @@ class Memory(BinaryIO, ABC):
         """
         offset = value_type.size if aligned else 1
         self.entries = []
+        size = value_type.size
+        format_ = value_type.get_format()
 
         for mem_map in self.process.memory_maps(grouped=False):
             if mem_map.path in ("[vvar]", "[vsyscall]") or "r" not in mem_map.perms:
@@ -159,7 +162,7 @@ class Memory(BinaryIO, ABC):
             map_size = int(mem_map.size)
 
             for i in range(0, map_size, offset):
-                read_value = self.read(addr + i, value_type)
+                read_value = self.read(addr + i, size, format_)
 
                 if read_value == value:
                     self.entries.append(Value(self.pid, addr + i, read_value, value_type))
@@ -170,11 +173,16 @@ class Memory(BinaryIO, ABC):
         if self.entries is None:
             return []
         new_list: typing.List[Value] = []
+        # since the type can be assumed to be the same for all, since you can't change the type
+        # after first scan, we'll simply check what the first one is, that way we will improve
+        # performance, since python doens't know jack about how to optimize anything
+        size = self.entries[0].type.size
+        format_ = self.entries[0].type.get_format()
 
         for entry in self.entries:
             # doesn't use it's own read function since it requires opening a new fd and since
             # we want it to be as fast as possible, we don't use it.
-            new_value = self.read(entry.address, entry.type)
+            new_value = self.read(entry.address, size, format_)
 
             if new_value == value:
                 entry.previous_value = value
