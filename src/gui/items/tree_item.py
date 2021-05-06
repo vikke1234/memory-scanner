@@ -15,7 +15,7 @@
 #
 from enum import IntEnum, auto
 
-from value import Value
+from memory.value import Value
 
 
 class SavedAddressHeaderEnum(IntEnum):

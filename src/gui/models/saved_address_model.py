@@ -19,7 +19,7 @@ from PyQt5.Qt import QAbstractItemModel, Qt
 from PyQt5.QtCore import QModelIndex
 
 from gui.items.tree_item import TreeItem, SavedAddressHeaderEnum
-from value import Value
+from memory.value import Value
 
 
 class SavedAddressModel(QAbstractItemModel):

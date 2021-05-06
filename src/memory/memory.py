@@ -20,9 +20,9 @@ from abc import ABC
 
 import psutil
 
-from binary_io import BinaryIO
-from type import Type
-from value import Value
+from memory.binary_io import BinaryIO
+from memory.type import Type
+from memory.value import Value
 
 
 def _get_pid(name: str) -> int:

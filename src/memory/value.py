@@ -17,8 +17,8 @@
 import os
 import typing
 
-from binary_io import BinaryIO
-from type import Type
+from memory.binary_io import BinaryIO
+from memory.type import Type
 
 
 class Value(BinaryIO):

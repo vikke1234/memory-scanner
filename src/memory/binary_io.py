@@ -16,7 +16,7 @@
 
 import struct
 
-from type import Type
+from memory.type import Type
 
 
 class BinaryIO:

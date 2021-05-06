@@ -25,7 +25,7 @@ from PyQt5.Qt import \
 from PyQt5.QtCore import pyqtSignal, pyqtSlot
 
 from gui.threads.update_scanresult import UpdateThread
-from value import Value
+from memory.value import Value
 
 
 class HeaderEnum(IntEnum):

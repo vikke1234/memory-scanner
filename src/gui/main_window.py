@@ -22,8 +22,8 @@ from gui.dialogs.process_view import ProcessView
 from gui.models.found_address_model import FoundAddressModel
 from gui.models.saved_address_model import SavedAddressModel
 from gui.ui.widgets.mainwindow import Ui_MainWindow
-from memory import Memory
-from type import Type
+from memory.memory import Memory
+from memory.type import Type
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
