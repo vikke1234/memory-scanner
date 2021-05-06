@@ -15,6 +15,7 @@
 #
 
 import enum
+import struct
 
 
 class Type(enum.IntEnum):
@@ -39,7 +40,7 @@ class Type(enum.IntEnum):
         """
         type_to_format = {Type.UINT8: "B", Type.UINT16: "H",
                           Type.UINT32: "I", Type.UINT64: "Q"}
-        return type_to_format[self]
+        return struct.Struct(type_to_format[self])
 
     def parse_value(self, value_str: str, ishex=False):
         """

@@ -14,7 +14,6 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import struct
 import typing
 from abc import ABC
 
@@ -74,7 +73,7 @@ class Memory(BinaryIO, ABC):
         self.process = None
         self.pid = 0
 
-    def read(self, address: int, size: int, format_: str) -> typing.Any:
+    def read(self, address: int, size: int) -> typing.Any:
         """
         read size bytes from the processes memory
         :param address: address to read from
@@ -85,7 +84,7 @@ class Memory(BinaryIO, ABC):
         """
         self.memory.seek(int(address))
         buf = self.memory.read(size)
-        return struct.unpack(format_, buf)[0]
+        return buf
 
     def write(self, address: int, data: typing.Any) -> None:
         """
@@ -146,11 +145,9 @@ class Memory(BinaryIO, ABC):
         :param aligned: whether or not the search will be aligned or not
         :return: a list of entries found
         """
-        offset = value_type.size if aligned else 1
         self.entries = []
+        fmt = value_type.get_format()
         size = value_type.size
-        format_ = value_type.get_format()
-
         for mem_map in self.process.memory_maps(grouped=False):
             if mem_map.path in ("[vvar]", "[vsyscall]") or "r" not in mem_map.perms:
                 # There seems to be some bug that you cannot read from vvar from an
@@ -160,13 +157,12 @@ class Memory(BinaryIO, ABC):
             print("scanning range:", mem_map.addr)
             addr = int(mem_map.addr.split("-")[0], 16)
             map_size = int(mem_map.size)
+            read_bytes = self.read(addr, map_size)
 
-            for i in range(0, map_size, offset):
-                read_value = self.read(addr + i, size, format_)
-
-                if read_value == value:
-                    self.entries.append(Value(self.pid, addr + i, read_value, value_type))
-
+            self.entries.extend([Value(self.pid, addr + i * size, read_value[0], value_type)
+                                 for i, read_value
+                                 in enumerate(fmt.iter_unpack(read_bytes)) if
+                                 read_value[0] == value])
         return self.entries
 
     def _scan_cull(self, value: typing.Any):
@@ -177,12 +173,12 @@ class Memory(BinaryIO, ABC):
         # after first scan, we'll simply check what the first one is, that way we will improve
         # performance, since python doens't know jack about how to optimize anything
         size = self.entries[0].type.size
-        format_ = self.entries[0].type.get_format()
+        fmt = self.entries[0].type.get_format()
 
         for entry in self.entries:
             # doesn't use it's own read function since it requires opening a new fd and since
             # we want it to be as fast as possible, we don't use it.
-            new_value = self.read(entry.address, size, format_)
+            new_value = fmt.unpack(self.read(entry.address, size))[0]
 
             if new_value == value:
                 entry.previous_value = value

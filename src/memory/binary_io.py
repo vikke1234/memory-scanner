@@ -14,8 +14,6 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import struct
-
 from memory.type import Type
 
 
@@ -38,8 +36,8 @@ class BinaryIO:
         """
         with open(f"/proc/{self.pid}/mem", "rb") as mem:
             mem.seek(address)
-            decode_format = value_type.get_format()
+
             size = value_type.size
             bytes_read = mem.read(size)
 
-            return struct.unpack(decode_format, bytes_read)[0]
+            return value_type.get_format().unpack(bytes_read)[0]
