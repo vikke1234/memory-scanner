@@ -67,6 +67,10 @@ class Value(BinaryIO):
     def write(self, address):
         pass
 
+    def change_type(self, typeof: Type):
+        print("Swapping type")
+        self.type = typeof
+
     def __eq__(self, other):
         """
         compares two values

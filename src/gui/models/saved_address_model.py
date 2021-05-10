@@ -16,9 +16,10 @@
 import typing
 
 from PyQt5.Qt import QAbstractItemModel, Qt
-from PyQt5.QtCore import QModelIndex
+from PyQt5.QtCore import QModelIndex, QMutexLocker
 
 from gui.items.tree_item import TreeItem, SavedAddressHeaderEnum
+from gui.threads.saved_results_thread import SavedResultsThread, mutex
 from memory.value import Value
 
 
@@ -30,13 +31,27 @@ class SavedAddressModel(QAbstractItemModel):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self._root_item = TreeItem(None)
+        self.update_thread = SavedResultsThread(self._root_item, self)
+        self.update_thread.updated.connect(self.value_changed)
+        self.update_thread.start()
+        self.destroyed.connect(lambda: self.__unregister())  # again, this is intentional.
 
-    def data(self, index: QModelIndex, role: int = ...) -> typing.Any:
+    def __unregister(self):
+        self.update_thread.stop()
+        self.update_thread.wait()
+
+    def data(self, index: QModelIndex, role: int = Qt.DisplayRole) -> typing.Any:
         if not index.isValid():
             return None
         if role == Qt.DisplayRole:
             item: TreeItem = index.internalPointer()
-            return item.data(index.column())
+            column = index.column()
+            return item.data(column)
+
+    def setData(self, index: QModelIndex, value: typing.Any, role: int = Qt.EditRole) -> bool:
+        if not index.isValid():
+            return False
+        item: TreeItem = index.internalPointer()
 
     def headerData(self, section: int, orientation: Qt.Orientation, role: int = ...) -> typing.Any:
         if role == Qt.DisplayRole:
@@ -54,19 +69,18 @@ class SavedAddressModel(QAbstractItemModel):
         return SavedAddressHeaderEnum.SIZE
 
     def rowCount(self, parent: QModelIndex = ...) -> int:
-        if parent.column() > 0:
+        parent_item = self.get_item(parent)
+        if parent_item is None:
             return 0
-
-        return self._root_item.childCount()
+        return self._root_item.child_count()
 
     def index(self, row: int, column: int, parent: QModelIndex = ...) -> QModelIndex:
         if not self.hasIndex(row, column, parent):
             return QModelIndex()
 
-        parent_item = self._root_item
-
-        if parent.isValid():
-            parent_item = parent.internalPointer()
+        parent_item = self.get_item(parent)
+        if parent_item is None:
+            return QModelIndex()
 
         child = parent_item.child(row)
 
@@ -74,12 +88,14 @@ class SavedAddressModel(QAbstractItemModel):
             return self.createIndex(row, column, child)
         return QModelIndex()
 
-    def parent(self, child: QModelIndex) -> QModelIndex:
-        if not child.isValid():
+    def parent(self, index: QModelIndex) -> QModelIndex:
+        if not index.isValid():
             return QModelIndex()
-        parent_item: TreeItem = child.internalPointer().parent
 
-        if parent_item == self._root_item:
+        child_item = self.get_item(index)
+        parent_item: TreeItem = child_item.parent if child_item else None
+
+        if parent_item == self._root_item or parent_item is None:
             return QModelIndex()
         return self.createIndex(parent_item.row(), 0, parent_item)
 
@@ -89,5 +105,15 @@ class SavedAddressModel(QAbstractItemModel):
         return QAbstractItemModel.flags(self, index)
 
     def append_row(self, value: Value):
-        self._root_item.appendChild(TreeItem(value, self._root_item))
-        self.layoutChanged.emit()
+        with QMutexLocker(mutex):
+            self._root_item.append_child(TreeItem(value, self._root_item))
+            self.layoutChanged.emit()
+
+    def get_item(self, index: QModelIndex) -> TreeItem:
+        if index.isValid():
+            return index.internalPointer()
+        return self._root_item
+
+    def value_changed(self, item: TreeItem):
+        index = self.index(item.row(), SavedAddressHeaderEnum.VALUE, item.parent)
+        self.dataChanged.emit(index, index)

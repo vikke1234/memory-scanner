@@ -34,7 +34,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.scan_widget.setEnabled(False)
 
-        self.saved_results.setModel(SavedAddressModel(self))
         self.found_table.setModel(FoundAddressModel(self))
         self.found_table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Stretch)
 
@@ -61,7 +60,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO: fix looking for negative values, probably have to fiddle with the type system
         try:
             values = self.memory.scan(self.search_for.text(), Type(
-                self.scan_byte_size.currentIndex()), aligned=self.aligned.isChecked())
+                self.scan_byte_size.currentIndex()))
             self.amount_found.setText("Found: {}".format(len(values)))
             self.found_table.model().set_values(values)
         except NoSuchProcess:

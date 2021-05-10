@@ -111,7 +111,7 @@ class Memory(BinaryIO, ABC):
         """
         self.entries = None
 
-    def scan(self, value: typing.Any, value_type: Type = Type.UINT32, aligned: bool = True):
+    def scan(self, value: typing.Any, value_type: Type = Type.UINT32):
         """
         scans the memory for a given number
         TODO: add more configuration of what to search, e.g. only look in stack, non executables etc
@@ -133,11 +133,11 @@ class Memory(BinaryIO, ABC):
             value = value_type.parse_value(value)
 
         if self.entries is None:
-            return self._scan_initial(value, value_type, aligned)
+            return self._scan_initial(value, value_type)
 
         return self._scan_cull(value)
 
-    def _scan_initial(self, value: typing.Any, value_type: Type, aligned: bool = True):
+    def _scan_initial(self, value: typing.Any, value_type: Type):
         """
         initial scanning, creates the first list which then will be culled down
         :param value: value to look for

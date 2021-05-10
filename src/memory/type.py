@@ -57,3 +57,6 @@ class Type(enum.IntEnum):
         if self.value < 4:
             return int(value_str, 16 if ishex else 10)
         return None
+
+    def __str__(self):
+        return f"{self.size} Bytes"
