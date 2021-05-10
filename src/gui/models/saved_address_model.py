@@ -115,5 +115,5 @@ class SavedAddressModel(QAbstractItemModel):
         return self._root_item
 
     def value_changed(self, item: TreeItem):
-        index = self.index(item.row(), SavedAddressHeaderEnum.VALUE, item.parent)
+        index = self.createIndex(item.row(), SavedAddressHeaderEnum.VALUE, item.parent)
         self.dataChanged.emit(index, index)
