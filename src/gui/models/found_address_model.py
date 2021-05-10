@@ -154,9 +154,10 @@ class FoundAddressModel(QAbstractTableModel):
         :param row: row of the value
         :return: None
         """
-        value = self.values[row]
-        index = self.index(row, HeaderEnum.CURRENT_VALUE, QModelIndex())
-        self.setData(index, value.value)
+        if 0 <= row < len(self.values):
+            value = self.values[row]
+            index = self.index(row, HeaderEnum.CURRENT_VALUE, QModelIndex())
+            self.setData(index, value.value)
 
     @pyqtSlot()
     def table_changed(self):
