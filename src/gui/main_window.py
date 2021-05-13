@@ -13,6 +13,7 @@
 #      You should have received a copy of the GNU General Public License
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
+import operator
 
 from PyQt5.Qt import QMainWindow, QHeaderView, QMessageBox
 from PyQt5.QtCore import pyqtSlot, QModelIndex
@@ -20,7 +21,6 @@ from psutil import NoSuchProcess
 
 from gui.dialogs.process_view import ProcessView
 from gui.models.found_address_model import FoundAddressModel
-from gui.models.saved_address_model import SavedAddressModel
 from gui.ui.widgets.mainwindow import Ui_MainWindow
 from memory.memory import Memory
 from memory.type import Type
@@ -59,8 +59,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def next_scan_clicked(self):
         # TODO: fix looking for negative values, probably have to fiddle with the type system
         try:
+            scan_type = {0: operator.eq, 1: operator.gt, 2: operator.lt, 3: operator.ne}
+            match_index = self.scan_matching.currentIndex()
+
             values = self.memory.scan(self.search_for.text(), Type(
-                self.scan_byte_size.currentIndex()))
+                self.scan_byte_size.currentIndex()), scan_type[match_index])
             self.amount_found.setText("Found: {}".format(len(values)))
             self.found_table.model().set_values(values)
         except NoSuchProcess:

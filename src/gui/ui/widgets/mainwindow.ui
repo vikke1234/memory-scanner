@@ -155,6 +155,21 @@
                <string>Exact value</string>
               </property>
              </item>
+             <item>
+              <property name="text">
+               <string>Greater than</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Less than</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Not equal</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item>
@@ -252,7 +267,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>34</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

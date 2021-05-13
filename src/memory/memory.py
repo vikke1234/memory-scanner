@@ -13,7 +13,7 @@
 #      You should have received a copy of the GNU General Public License
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
-
+import operator
 import typing
 from abc import ABC
 
@@ -111,7 +111,8 @@ class Memory(BinaryIO, ABC):
         """
         self.entries = None
 
-    def scan(self, value: typing.Any, value_type: Type = Type.UINT32):
+    def scan(self, value: typing.Any, value_type: Type = Type.UINT32,
+             match_function: typing.Callable = operator.eq):
         """
         scans the memory for a given number
         TODO: add more configuration of what to search, e.g. only look in stack, non executables etc
@@ -133,11 +134,11 @@ class Memory(BinaryIO, ABC):
             value = value_type.parse_value(value)
 
         if self.entries is None:
-            return self._scan_initial(value, value_type)
+            return self._scan_initial(value, value_type, match_function)
 
-        return self._scan_cull(value)
+        return self._scan_cull(value, match_function)
 
-    def _scan_initial(self, value: typing.Any, value_type: Type):
+    def _scan_initial(self, value: typing.Any, value_type: Type, match_function: typing.Callable):
         """
         initial scanning, creates the first list which then will be culled down
         :param value: value to look for
@@ -162,10 +163,10 @@ class Memory(BinaryIO, ABC):
             self.entries.extend([Value(self.pid, addr + i * size, read_value[0], value_type)
                                  for i, read_value
                                  in enumerate(fmt.iter_unpack(read_bytes)) if
-                                 read_value[0] == value])
+                                 match_function(read_value[0], value)])
         return self.entries
 
-    def _scan_cull(self, value: typing.Any):
+    def _scan_cull(self, value: typing.Any, match_function: typing.Callable):
         if self.entries is None:
             return []
         new_list: typing.List[Value] = []
@@ -180,8 +181,8 @@ class Memory(BinaryIO, ABC):
             # we want it to be as fast as possible, we don't use it.
             new_value = fmt.unpack(self.read(entry.address, size))[0]
 
-            if new_value == value:
-                entry.previous_value = value
+            if match_function(new_value, value):
+                entry.previous_value = new_value
                 new_list.append(entry)
 
         self.entries = new_list
