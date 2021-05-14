@@ -2,7 +2,7 @@
 With the help of this program you can scan and use the process 
 of elimination to find a variable in memory.
 
-[Latest release](https://github.com/vikke1234/ot-project/releases/tag/v0.2.0)
+[Latest release](https://github.com/vikke1234/ot-project/releases)
 
 ### Python version
 This has been tested with `python 3.9`, it will probably work with
