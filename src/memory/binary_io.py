@@ -41,3 +41,16 @@ class BinaryIO:
             bytes_read = mem.read(size)
 
             return value_type.get_format().unpack(bytes_read)[0]
+
+    def _write(self, address: int, data: bytes):
+        """
+        writes data to a given address
+
+        :param address: address to write to
+        :param data: data in bytes to write
+        :return: bytes written
+        """
+
+        with open(f"/proc/{self.pid}/mem", "r+b") as mem:
+            mem.seek(address)
+            return mem.write(data)

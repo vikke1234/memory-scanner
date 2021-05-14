@@ -14,15 +14,13 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from PyQt5.Qt import QTreeView, QComboBox, QWidget
-from PyQt5.QtCore import QModelIndex, pyqtSlot, QMutexLocker
+from PyQt5.Qt import QTreeView
+from PyQt5.QtCore import QModelIndex, pyqtSlot
 
-from gui.models.saved_address_model import SavedAddressModel
-from gui.threads.saved_results_thread import mutex, SavedResultsThread
-from gui.items.tree_item import SavedAddressHeaderEnum, TreeItem
 from gui.delegates.type_delegate import TypeDelegate
+from gui.items.tree_item import SavedAddressHeaderEnum, TreeItem
+from gui.models.saved_address_model import SavedAddressModel
 from memory.type import Type
-from memory.value import Value
 
 
 class SavedAddressView(QTreeView):
@@ -34,7 +32,6 @@ class SavedAddressView(QTreeView):
         type_delegate.type_changed_signal.connect(self.__change_data)
         self.setItemDelegateForColumn(SavedAddressHeaderEnum.TYPE, type_delegate)
         self._datamodel.layoutChanged.connect(self.__init_comboboxes)
-
 
     def append_row(self, value):
         """

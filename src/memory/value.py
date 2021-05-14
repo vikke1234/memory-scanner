@@ -64,8 +64,8 @@ class Value(BinaryIO):
         self.value = super()._read(self.address, self.type)
         return self.value
 
-    def write(self, address):
-        pass
+    def write(self, new_value):
+        self._write(self.address, self.type.get_format().pack(new_value))
 
     def change_type(self, typeof: Type):
         print("Swapping type")

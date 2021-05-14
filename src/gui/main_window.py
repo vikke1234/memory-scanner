@@ -14,13 +14,17 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 import operator
+import struct
 
 from PyQt5.Qt import QMainWindow, QHeaderView, QMessageBox
 from PyQt5.QtCore import pyqtSlot, QModelIndex
 from psutil import NoSuchProcess
 
 from gui.dialogs.process_view import ProcessView
+from gui.dialogs.write_form import WriteForm
+from gui.items.tree_item import TreeItem
 from gui.models.found_address_model import FoundAddressModel
+from gui.models.saved_address_model import SavedAddressHeaderEnum
 from gui.ui.widgets.mainwindow import Ui_MainWindow
 from memory.memory import Memory
 from memory.type import Type
@@ -41,6 +45,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.next_scan.clicked.connect(self.next_scan_clicked)
         self.actionAttach.triggered.connect(self.attach_triggered)
         self.found_table.doubleClicked.connect(self.found_table_double_clicked)
+        self.saved_results.doubleClicked.connect(self.saved_model_double_clicked)
 
     @pyqtSlot()
     def new_scan_clicked(self):
@@ -84,3 +89,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             return
         clicked_value = self.found_table.model().get_value(index.row())
         self.saved_results.model().append_row(clicked_value)
+
+    @pyqtSlot(QModelIndex)
+    def saved_model_double_clicked(self, index: QModelIndex):
+        if not index.isValid():
+            return
+        column = index.column()
+
+        if column == SavedAddressHeaderEnum.VALUE:
+            form = WriteForm(self)
+            x = form.exec_()
+            text = form.value.text()
+            if x and len(text) != 0:
+                item: TreeItem = self.saved_results.model().get_item(index)
+                value = item.get_internal_pointer()
+                try:
+                    value.write(value.type.parse_value(text, form.ishex.isChecked()))
+                except struct.error:
+                    QMessageBox(QMessageBox.NoIcon, "Error", "You can't write a larger number to "
+                                                             "memory than you currently have set "
+                                                             "as a type.\nSee limits.h for more "
+                                                             "information",
+                                QMessageBox.Ok, self).exec_()
+                except ValueError:
+                    # this is a kinda temporary fix, I'm planning on adding a validator or some
+                    # shit later, not entirely sure how to add them yet so this will do
+                    QMessageBox(QMessageBox.NoIcon, "Error", "Error parsing value, you probably "
+                                                             "entered text when trying to write "
+                                                             "an integer...",
+                                QMessageBox.Ok, self).exec_()
