@@ -11,7 +11,7 @@ You should also be able to write to the addresses.
 - ~~Save the found addresses~~
 - Change the underlying type in the saved address
 - ~~Update the values contained in the saved address widget~~
-- Different scan types, <, >, !=
+- ~~Different scan types, <, >, !=~~
 - Write to the addresses
 
 # Future implementation ideas
