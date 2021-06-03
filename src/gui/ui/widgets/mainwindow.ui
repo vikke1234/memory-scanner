@@ -180,28 +180,8 @@
                 <bool>true</bool>
                </property>
                <property name="currentIndex">
-                <number>2</number>
+                <number>-1</number>
                </property>
-               <item>
-                <property name="text">
-                 <string>1 Byte</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2 Bytes</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4 Bytes</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>8 Bytes</string>
-                </property>
-               </item>
               </widget>
              </item>
              <item>

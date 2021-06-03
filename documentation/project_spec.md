@@ -9,10 +9,10 @@ You should also be able to write to the addresses.
 - ~~Ability to look for things numbers in memory and narrow them down~~
 - ~~Automatically update the table of found addresses~~
 - ~~Save the found addresses~~
-- Change the underlying type in the saved address
+- ~~Change the underlying type in the saved address~~
 - ~~Update the values contained in the saved address widget~~
 - ~~Different scan types, <, >, !=~~
-- Write to the addresses
+- ~~Write to the addresses~~
 
 # Future implementation ideas
 - Look for floats/doubles

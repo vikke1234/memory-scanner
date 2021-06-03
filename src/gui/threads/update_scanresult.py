@@ -34,8 +34,8 @@ class UpdateThread(QThread):
     def run(self) -> None:
         while self.__is_running:
             for row, value in enumerate(self.values):
-                current = value.read()
-                if current != value.previous_value:
+                previous = value.value
+                if previous != value.read():
                     self.changed_value.emit(row)
 
                 # not entirely sure about this

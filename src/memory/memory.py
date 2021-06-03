@@ -49,8 +49,6 @@ class Memory(BinaryIO, ABC):
     def __init__(self):
         """
         NOTE: if you give the name it tries to find a process by that name but it may get it wrong
-
-        :param pid: pid or name of process
         """
         super().__init__()
         self.pid: int = 0
@@ -78,7 +76,6 @@ class Memory(BinaryIO, ABC):
         read size bytes from the processes memory
         :param address: address to read from
         :param size: bytes to read
-        :param format_: struct format string
 
         :return: the bytes
         """
@@ -125,7 +122,6 @@ class Memory(BinaryIO, ABC):
 
         :param value: value to compare to
         :param value_type: type of the value
-        :param aligned: if search should be aligned or not, ignored if not initial scan
         :return:
         """
         if isinstance(value, str):
@@ -143,7 +139,6 @@ class Memory(BinaryIO, ABC):
         initial scanning, creates the first list which then will be culled down
         :param value: value to look for
         :param value_type: the type of the value
-        :param aligned: whether or not the search will be aligned or not
         :return: a list of entries found
         """
         self.entries = []
@@ -162,8 +157,8 @@ class Memory(BinaryIO, ABC):
 
             self.entries.extend([Value(self.pid, addr + i * size, read_value[0], value_type)
                                  for i, read_value
-                                 in enumerate(fmt.iter_unpack(read_bytes)) if
-                                 match_function(read_value[0], value)])
+                                 in enumerate(fmt.iter_unpack(read_bytes))
+                                 if match_function(read_value[0], value)])
         return self.entries
 
     def _scan_cull(self, value: typing.Any, match_function: typing.Callable):
