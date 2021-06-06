@@ -16,6 +16,7 @@
 
 import os
 import typing
+import math
 
 from memory.binary_io import BinaryIO
 from memory.type import Type
@@ -79,6 +80,8 @@ class Value(BinaryIO):
         """
         if isinstance(other, Value):
             return self.type == other.type and self.address == other.address
+        if isinstance(other, float):
+            return math.isclose(self.value, other, abs_tol=0.01)
         return self.value == other
 
     def __str__(self):

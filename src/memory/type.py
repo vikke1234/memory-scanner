@@ -14,32 +14,35 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-import enum
+from enum import IntEnum, auto
 import struct
 
 
-class Type(enum.IntEnum):
+class Type(IntEnum):
     """
     TODO: maybe add signed variants of these
     """
     UINT8 = 0
-    UINT16 = 1
-    UINT32 = 2
-    UINT64 = 3
+    UINT16 = auto()
+    UINT32 = auto()
+    UINT64 = auto()
+    FLOAT = auto()
+    DOUBLE = auto()
 
     @property
     def size(self):
         """
         :return: gets the size of a type in bytes
         """
-        return 2**self.value
+        return self.get_format().size
 
     def get_format(self):
         """
         :return: the struct format for the given type
         """
         type_to_format = {Type.UINT8: "B", Type.UINT16: "H",
-                          Type.UINT32: "I", Type.UINT64: "Q"}
+                          Type.UINT32: "I", Type.UINT64: "Q",
+                          Type.FLOAT: "f", Type.DOUBLE: "d"}
         return struct.Struct(type_to_format[self])
 
     def parse_value(self, value_str: str, ishex=False):
@@ -56,7 +59,11 @@ class Type(enum.IntEnum):
         # pylint: disable=comparison-with-callable
         if self.value < 4:
             return int(value_str, 16 if ishex else 10)
+        elif self.value == Type.DOUBLE or self.value == Type.FLOAT:
+            return float(value_str.replace(",","."))
         return None
 
     def __str__(self):
+        if self.value == Type.FLOAT or self.value == Type.DOUBLE:
+            return self.name.capitalize()
         return f"{self.size} Bytes"

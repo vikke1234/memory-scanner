@@ -86,10 +86,6 @@ class Ui_MainWindow(object):
         self.scan_byte_size = QtWidgets.QComboBox(self.scan_widget)
         self.scan_byte_size.setEnabled(True)
         self.scan_byte_size.setObjectName("scan_byte_size")
-        self.scan_byte_size.addItem("")
-        self.scan_byte_size.addItem("")
-        self.scan_byte_size.addItem("")
-        self.scan_byte_size.addItem("")
         self.horizontalLayout_7.addWidget(self.scan_byte_size)
         self.aligned = QtWidgets.QCheckBox(self.scan_widget)
         self.aligned.setChecked(True)
@@ -128,7 +124,7 @@ class Ui_MainWindow(object):
         self.amount_found.setBuddy(self.found_table)
 
         self.retranslateUi(MainWindow)
-        self.scan_byte_size.setCurrentIndex(2)
+        self.scan_byte_size.setCurrentIndex(-1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -145,10 +141,6 @@ class Ui_MainWindow(object):
         self.scan_matching.setItemText(1, _translate("MainWindow", "Greater than"))
         self.scan_matching.setItemText(2, _translate("MainWindow", "Less than"))
         self.scan_matching.setItemText(3, _translate("MainWindow", "Not equal"))
-        self.scan_byte_size.setItemText(0, _translate("MainWindow", "1 Byte"))
-        self.scan_byte_size.setItemText(1, _translate("MainWindow", "2 Bytes"))
-        self.scan_byte_size.setItemText(2, _translate("MainWindow", "4 Bytes"))
-        self.scan_byte_size.setItemText(3, _translate("MainWindow", "8 Bytes"))
         self.aligned.setText(_translate("MainWindow", "Aligned"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.actionAttach.setText(_translate("MainWindow", "Attach"))

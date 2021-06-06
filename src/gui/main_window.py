@@ -13,11 +13,13 @@
 #      You should have received a copy of the GNU General Public License
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
+import math
 import operator
 import struct
 
 from PyQt5.Qt import QMainWindow, QHeaderView, QMessageBox
-from PyQt5.QtCore import pyqtSlot, QModelIndex
+from PyQt5.QtCore import pyqtSlot, QModelIndex, QLocale, QRegExp
+from PyQt5.QtGui import QIntValidator, QDoubleValidator, QRegExpValidator
 from psutil import NoSuchProcess
 
 from gui.dialogs.process_view import ProcessView
@@ -36,6 +38,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.memory = Memory()
 
         self.setupUi(self)
+        self.scan_byte_size.insertItems(0, [str(t) for t in Type])
+        self.scan_byte_size.setCurrentIndex(Type.UINT32.value)
         self.scan_widget.setEnabled(False)
 
         self.found_table.setModel(FoundAddressModel(self))
@@ -46,6 +50,17 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.actionAttach.triggered.connect(self.attach_triggered)
         self.found_table.doubleClicked.connect(self.found_table_double_clicked)
         self.saved_results.doubleClicked.connect(self.saved_model_double_clicked)
+        self.search_for.setValidator(QIntValidator(self))
+        self.scan_byte_size.currentIndexChanged.connect(self.type_changed)
+
+    @pyqtSlot(int)
+    def type_changed(self, index):
+        int_validator = QIntValidator(self)
+        double_validator = QRegExpValidator(QRegExp(r"-?[0-9]*[\.\,]?[0-9]*"))
+        type_to_validator = {Type.UINT8: int_validator, Type.UINT16: int_validator,
+                             Type.UINT32: int_validator, Type.UINT64: int_validator,
+                             Type.FLOAT: double_validator, Type.DOUBLE: double_validator}
+        self.search_for.setValidator(type_to_validator[Type(index)])
 
     @pyqtSlot()
     def new_scan_clicked(self):
@@ -54,11 +69,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.found_table.model().set_values([])
             self.memory.reset_scan()
         else:
-            # the isnumeric is a simple workaround, since I'll support strings eventually
-            # until then it can stay
-            if len(self.search_for.text()) > 0 and self.search_for.text().lstrip("-").isnumeric():
-                self.next_scan_clicked()
-                self.next_scan.setEnabled(True)
+            self.next_scan_clicked()
+            self.next_scan.setEnabled(True)
 
     @pyqtSlot()
     def next_scan_clicked(self):
@@ -66,9 +78,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         try:
             scan_type = {0: operator.eq, 1: operator.gt, 2: operator.lt, 3: operator.ne}
             match_index = self.scan_matching.currentIndex()
+            type_ = Type(self.scan_byte_size.currentIndex())
 
-            values = self.memory.scan(self.search_for.text(), Type(
-                self.scan_byte_size.currentIndex()), scan_type[match_index])
+            # since floating points are annoying we have to use isclose, I kinda wanna make
+            # it configureable though but for now it will have to do
+            if type_ == Type.FLOAT or type_ == Type.DOUBLE:
+                scan_type[1] = math.isclose
+
+            values = self.memory.scan(self.search_for.text(), type_, scan_type[match_index])
             self.amount_found.setText("Found: {}".format(len(values)))
             self.found_table.model().set_values(values)
         except NoSuchProcess:
