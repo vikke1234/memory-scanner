@@ -18,7 +18,7 @@ from PyQt5.Qt import Qt, QStyledItemDelegate, QComboBox
 from PyQt5.QtCore import pyqtSignal, QModelIndex
 from PyQt5.QtWidgets import QWidget, QStyleOptionViewItem
 
-from memory.type import Type
+from core.type import Type
 
 
 class TypeDelegate(QStyledItemDelegate):

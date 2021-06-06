@@ -20,7 +20,7 @@ from typing import List
 from PyQt5.Qt import QThread
 from PyQt5.QtCore import pyqtSignal
 
-from memory.value import Value
+from core.value import Value
 
 
 class UpdateThread(QThread):

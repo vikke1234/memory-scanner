@@ -14,7 +14,7 @@
 #      along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from memory.type import Type
+from core.type import Type
 
 
 class BinaryIO:

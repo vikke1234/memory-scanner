@@ -18,8 +18,8 @@ import os
 import typing
 import math
 
-from memory.binary_io import BinaryIO
-from memory.type import Type
+from core.binary_io import BinaryIO
+from core.type import Type
 
 
 class Value(BinaryIO):

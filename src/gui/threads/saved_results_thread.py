@@ -19,7 +19,7 @@ from time import sleep
 from PyQt5.QtCore import QThread, QMutex, QMutexLocker, pyqtSignal
 
 from gui.items.tree_item import TreeItem
-from memory.value import Value
+from core.value import Value
 
 mutex = QMutex()
 

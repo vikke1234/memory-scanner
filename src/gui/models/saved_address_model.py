@@ -20,7 +20,7 @@ from PyQt5.QtCore import QModelIndex, QMutexLocker
 
 from gui.items.tree_item import TreeItem, SavedAddressHeaderEnum
 from gui.threads.saved_results_thread import SavedResultsThread, mutex
-from memory.value import Value
+from core.value import Value
 
 
 class SavedAddressModel(QAbstractItemModel):

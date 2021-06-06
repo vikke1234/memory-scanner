@@ -16,7 +16,7 @@
 
 import unittest
 
-from memory.type import Type
+from core.type import Type
 
 
 class TypeTest(unittest.TestCase):

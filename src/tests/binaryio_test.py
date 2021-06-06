@@ -17,8 +17,8 @@ import struct
 import unittest
 from unittest.mock import patch, mock_open
 
-from memory.binary_io import BinaryIO
-from memory.type import Type
+from core.binary_io import BinaryIO
+from core.type import Type
 
 
 class BinaryIOTest(unittest.TestCase):

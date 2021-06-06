@@ -28,8 +28,8 @@ from gui.items.tree_item import TreeItem
 from gui.models.found_address_model import FoundAddressModel
 from gui.models.saved_address_model import SavedAddressHeaderEnum
 from gui.ui.widgets.mainwindow import Ui_MainWindow
-from memory.memory import Memory
-from memory.type import Type
+from core.memory import Memory
+from core.type import Type
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):

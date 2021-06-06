@@ -24,7 +24,7 @@ To use essentially any feature you need to first attach to a process by pressing
 
 ## Logic
 
-### [Memory](../src/memory/memory.py)
+### [Memory](../src/core/memory.py)
 
 ![Memory class diagram](diagrams/memory.png)
 
@@ -36,7 +36,7 @@ Which are fairly self-explanatory; as of today (19.4.2021) the scan
 function is working but is fairly memory inefficient and probably slow
 it could use some work to make it better.
 
-### [Value](../src/memory/value.py)
+### [Value](../src/core/value.py)
 
 The way values are handled is through the `Value` class, it basically
 is just a container for an address, original value and a type.
@@ -49,7 +49,7 @@ the value of the address and to eventually support freezing. (essentially
 just constantly writing to the address at certain preferably configurable
 intervals).
 
-### [Type](../src/memory/type.py)
+### [Type](../src/core/type.py)
 
 ![Type class diagram](diagrams/type.png)
 

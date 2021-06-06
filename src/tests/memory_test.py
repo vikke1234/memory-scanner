@@ -18,8 +18,8 @@ from unittest.mock import Mock, mock_open, patch
 
 import psutil
 
-from memory.memory import Memory
-from memory.value import Value
+from core.memory import Memory
+from core.value import Value
 
 
 class InternalMmap:

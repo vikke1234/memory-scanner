@@ -20,7 +20,7 @@ from PyQt5.QtCore import QModelIndex, pyqtSlot
 from gui.delegates.type_delegate import TypeDelegate
 from gui.items.tree_item import SavedAddressHeaderEnum, TreeItem
 from gui.models.saved_address_model import SavedAddressModel
-from memory.type import Type
+from core.type import Type
 
 
 class SavedAddressView(QTreeView):
