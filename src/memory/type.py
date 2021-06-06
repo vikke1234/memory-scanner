@@ -59,11 +59,15 @@ class Type(IntEnum):
         # pylint: disable=comparison-with-callable
         if self.value < 4:
             return int(value_str, 16 if ishex else 10)
-        elif self.value == Type.DOUBLE or self.value == Type.FLOAT:
+        if self.value == Type.DOUBLE or self.value == Type.FLOAT:
             return float(value_str.replace(",","."))
         return None
 
     def __str__(self):
+        # see above comment
+        # pylint: disable=comparison-with-callable
         if self.value == Type.FLOAT or self.value == Type.DOUBLE:
+            # name is a string, has capitalize
+            # pylint: disable=no-member
             return self.name.capitalize()
         return f"{self.size} Bytes"

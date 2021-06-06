@@ -20,7 +20,7 @@ def coverage_report(ctx):
 
 @task
 def lint(ctx):
-    ctx.run("pylint src")
+    ctx.run("pylint -j 0 src")
 
 @task
 def reformat(ctx):

@@ -58,6 +58,10 @@ class Memory(BinaryIO, ABC):
 
     def attach(self, pid: int):
         self.pid = pid
+        # disabled for now untill I bother to make it better
+        # could be made so that it uses with to open in the scanning
+        # methods and then passes the fp to read/write
+        # pylint: disable=consider-using-with
         self.memory = open(f"/proc/{pid}/mem", "r+b")
         self.process = psutil.Process(pid)
 
